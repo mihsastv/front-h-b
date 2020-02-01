@@ -1,3 +1,5 @@
+
+
 let initialState = {
     cars: [],
     carsCalendar: [],
@@ -34,8 +36,16 @@ export default function rootReducer(state = initialState, action) {
             }
 
         case 'SET_MONTH':
+            let dateC=[]
+            let cCalendar = state.carsCalendar.slice()
+            cCalendar.forEach(e => {
+                if (new Date(e.dateFrom).getMonth() === action.payload) {
+                    for (let i = new Date(e.dateFrom).getDate(); i<new Date(e.dateTo).getDate()+1; i++)
+                    {dateC.push(i);}
+                }
+            })
             return {
-                ...state, months: action.payload
+                ...state, months: action.payload, dates: dateC
             }
         default: return state
     }

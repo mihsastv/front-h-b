@@ -6,16 +6,21 @@ import { connect } from "react-redux";
 const days = ['ПН','ВТ','СР','ЧТ','ПТ','СБ','ВС']
 const month = ['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Ноябрь','Декабрь'];
 
-const boxStyle = {
+const boxStyleHeader = {
     display: 'inline-block',
     backgroundColor: '#BCC0BD',
     border: '1px solid #2B2B2B',
     fontWeight: 'bold'
 }
 
-const boxStyle1 = {
+const boxStyleFree = {
     display: 'inline-block',
     backgroundColor: '#FBFFFC',
+    border: '1px solid #2B2B2B',
+}
+const boxStyleBusy = {
+    display: 'inline-block',
+    backgroundColor: '#26CEFF',
     border: '1px solid #2B2B2B',
 }
 
@@ -25,10 +30,12 @@ function getDay(date) { // получить номер дня недели, от
     return day - 1;
 }
 
-function renderTable(mon) {
-    let day = 0;
-    let d = new Date(2020, mon);
-    let count =[];
+function renderTable(mon, dates) {
+    let day = 0,
+    busy = false,
+    d = new Date(2020, mon),
+    count =[];
+
     for (let i=0; i<6; i++) {count.push(i)}
 
     return count.map (ind=>{
@@ -36,10 +43,15 @@ function renderTable(mon) {
             <Row key={ind}>
                 {days.map((item, ind) => {
                     if (d.getMonth() === mon)
-                    {if (ind === getDay(d)) {d.setDate(d.getDate() + 1); day += 1}
+                    {if (ind === getDay(d))
+                        {busy=false
+                            d.setDate(d.getDate() + 1);
+                            if (dates.indexOf(day+1) !== -1) {busy=true};
+                            day += 1;
+                        }
                     else {day = 0}}
                     else {day = 0}
-                    return <Col key={ind+100} style={boxStyle1}>{day === 0 ? '' : day}</Col>
+                    return <Col key={ind+100} style={busy ? boxStyleBusy : boxStyleFree}>{day === 0 ? '' : day}</Col>
                 })}
             </Row>
         )
@@ -54,12 +66,12 @@ class Calendar extends Component {
                 <Row>
                     {days.map((item, index)=>{
                         return(
-                            <Col key={index} style={boxStyle}>{item}</Col>
+                            <Col key={index} style={boxStyleHeader}>{item}</Col>
                         )
                     })}
                     <BDiv w="100"></BDiv>
                 </Row>
-                {renderTable(this.props.month)}
+                {renderTable(this.props.month, this.props.dates)}
             </Container>
         )
     }
@@ -67,7 +79,8 @@ class Calendar extends Component {
 
 function mapStateToProps(state) {
     return{
-        month: state.months
+        month: state.months,
+        dates: state.dates
     }
 }
 
