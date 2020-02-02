@@ -20,7 +20,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "server": "node ./api/index.js",
+    "server": "node ./src/api/index.js",
     "start": "concurrently --kill-others \"npm run server\" \"npm run reactproj\""
   },
   "eslintConfig": {
