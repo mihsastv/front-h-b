@@ -1,4 +1,5 @@
-Выполнил pflfybt  на Node(express) + mongo, front React/redux+Bootstrap
+
+**** Выполнил задаиние на Node(express) + mongo, front React/redux+Bootstrap
 
 после клонирования репозитория 
 запустить 
