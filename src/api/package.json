@@ -1,0 +1,29 @@
+{
+  "name": "fullsteck",
+  "version": "1.0.0",
+  "description": "angular and express",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "nodemon index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^12.12.7",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "moment": "^2.24.0",
+    "mongodb": "^3.5.2",
+    "mongoose": "^5.8.10",
+    "morgan": "^1.9.1",
+    "node-sspi": "^0.2.7",
+    "nodemon": "^1.19.4",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0"
+  }
+}
