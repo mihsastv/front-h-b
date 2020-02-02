@@ -2,27 +2,10 @@ import React, { Component } from 'react';
 import { Container, Row, Col, BDiv } from 'bootstrap-4-react';
 import { getCars, getCarsCalendar } from "../redux/action";
 import { connect } from "react-redux";
+import './calendar.css'
 
 const days = ['ПН','ВТ','СР','ЧТ','ПТ','СБ','ВС']
 const month = ['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Ноябрь','Декабрь'];
-
-const boxStyleHeader = {
-    display: 'inline-block',
-    backgroundColor: '#BCC0BD',
-    border: '1px solid #2B2B2B',
-    fontWeight: 'bold'
-}
-
-const boxStyleFree = {
-    display: 'inline-block',
-    backgroundColor: '#FBFFFC',
-    border: '1px solid #2B2B2B',
-}
-const boxStyleBusy = {
-    display: 'inline-block',
-    backgroundColor: '#26CEFF',
-    border: '1px solid #2B2B2B',
-}
 
 function getDay(date) { // получить номер дня недели, от 0 (пн) до 6 (вс)
     let day = date.getDay();
@@ -30,11 +13,11 @@ function getDay(date) { // получить номер дня недели, от
     return day - 1;
 }
 
-function renderTable(mon, dates) {
+function renderTable(year, mon, dates) {
     let day = 0,
-    busy = false,
-    d = new Date(2020, mon),
-    count =[];
+        busy = false,
+        d = new Date(year, mon),
+        count =[];
 
     for (let i=0; i<6; i++) {count.push(i)}
 
@@ -51,7 +34,7 @@ function renderTable(mon, dates) {
                         }
                     else {day = 0}}
                     else {day = 0}
-                    return <Col key={ind+100} style={busy ? boxStyleBusy : boxStyleFree}>{day === 0 ? '' : day}</Col>
+                    return <Col rounded key={ind+100} className={busy ? "boxStyleBusy" : "boxStyleFree"}>{day === 0 ? '' : day}</Col>
                 })}
             </Row>
         )
@@ -61,18 +44,19 @@ function renderTable(mon, dates) {
 class Calendar extends Component {
     render() {
         return (
-            <Container>
-                <label htmlFor="month">График на <b>{month[this.props.month]}</b></label>
-                <Row>
-                    {days.map((item, index)=>{
-                        return(
-                            <Col key={index} style={boxStyleHeader}>{item}</Col>
-                        )
-                    })}
-                    <BDiv w="100"></BDiv>
-                </Row>
-                {renderTable(this.props.month, this.props.dates)}
-            </Container>
+            <BDiv shadow p="3" bg="light" rounded>
+                <Container>
+                    <label htmlFor="month">График на <b>{month[this.props.month]} {this.props.year}</b> </label>
+                    <Row>
+                        {days.map((item, index)=>{
+                            return(
+                                <Col rounded key={index} className="boxStyleHeader">{item}</Col>
+                            )
+                        })}
+                    </Row>
+                    {renderTable(this.props.year, this.props.month, this.props.dates)}
+                </Container>
+            </BDiv>
         )
     }
 }
@@ -80,6 +64,7 @@ class Calendar extends Component {
 function mapStateToProps(state) {
     return{
         month: state.months,
+        year: state.year,
         dates: state.dates
     }
 }

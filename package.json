@@ -16,10 +16,12 @@
     "redux-thunk": "^2.3.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "reactproj": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "server": "node ./api/index.js",
+    "start": "concurrently --kill-others \"npm run server\" \"npm run reactproj\""
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -38,6 +40,7 @@
   },
   "devDependencies": {
     "axios": "^0.19.2",
+    "concurrently": "^5.1.0",
     "react-redux": "^7.1.3"
   }
 }

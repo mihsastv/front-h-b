@@ -3,36 +3,36 @@ import { ListGroup } from 'bootstrap-4-react';
 import { Button, Row, Col } from 'bootstrap-4-react';
 import { connect } from "react-redux";
 import moment from "moment";
-import { deletedBooking } from "../redux/action";
-
-const style = {
-        textAlign: 'left',
-        right: '0',
-        Button: {
-                textAlign: 'Left',
-        }
-}
+import {deletedBooking, setMonth} from "../redux/action";
+import './booking.css'
 
 class Booking extends Component {
     onDelete(event) {
-        this.props.deleteCalendar(event.target.value)
+        this.props.deleteCalendar({id: event.target.value, months: this.props.months, year: this.props.year})
+    }
+
+    componentDidMount() {
+        while (this.props.state.length !==0) {
+            this.props.setMonth({month: new Date().getMonth(), year: new Date().getFullYear()})
+        }
 
     }
+
     render () {
         return (
-            <ListGroup>
-                <ListGroup.Item active>Бронирования в текущем месяце
+            <ListGroup className="style">
+                <ListGroup.Item active>Данный автомобиль забронирован в следующие даты
                 </ListGroup.Item>
                     {this.props.state.map((e, idx) => {
                             return (
-                                <ListGroup.Item key={idx} style={style} border="primary">
-                                    <Row>
-                                        <Col md="10" mb="3" >
+                                <ListGroup.Item key={idx} border="primary">
+                                    <Row className="rowStyle" alignItems="start">
+                                        <Col md="8">
                                             <b>c </b> {moment(e.dateFrom, 'YYYY-MM-DD').format('DD.MM.YYYY')}
                                             <b> по </b> {moment(e.dateTo, 'YYYY-MM-DD').format('DD.MM.YYYY')}
                                         </Col>
-                                        <Col md="2" mb="3">
-                                            <Button value={e._id} danger outline onClick={this.onDelete.bind(this)}>Удалить</Button>
+                                        <Col md="4" alignSelf="center">
+                                            <Button value={e._id} danger sm outline onClick={this.onDelete.bind(this)}>Отменить бронирование</Button>
                                         </Col>
                                     </Row>
                                 </ListGroup.Item>
@@ -45,13 +45,16 @@ class Booking extends Component {
 
 function mapStateToProps(state) {
     return{
-        state: state.carsCalendar
+        state: state.carsCalendar,
+        months: state.months,
+        year: state.year
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return{
-        deleteCalendar: (id) => dispatch(deletedBooking(id))
+        deleteCalendar: (data) => dispatch(deletedBooking(data)),
+        setMonth: (id) => dispatch(setMonth(id))
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Booking);

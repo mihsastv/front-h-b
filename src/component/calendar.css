@@ -1,0 +1,14 @@
+.boxStyleHeader  {
+    background-color: #BCC0BD;
+    border: 1px solid #2B2B2B;
+    font-weight: bold;
+}
+
+.boxStyleFree {
+    background-color: #FBFFFC;
+    border: 1px solid #2B2B2B;
+}
+.boxStyleBusy {
+    background-color: #26CEFF;
+    border: 1px solid #2B2B2B;
+}
